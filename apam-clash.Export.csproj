@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net481</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+<ItemGroup>
+  <PackageReference Include="Navisworks.2026" Version="23.1.0" />
+</ItemGroup>
+
+
+  <!-- Automatically deploys your compiled plugin structure to Navisworks upon a successful build -->
+  <Target Name="CopyToNavisworks" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginDeployFolder>C:\ProgramData\Autodesk\Navisworks Manage 2026\Plugins\$(ProjectName)</PluginDeployFolder>
+    </PropertyGroup>
+    <Message Text="Deploying plugin files to: $(PluginDeployFolder)" Importance="high" />
+    <MakeDir Directories="$(PluginDeployFolder)" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).dll" DestinationFolder="$(PluginDeployFolder)" />
+    <!-- Copies symbol information to allow step-through code debugging -->
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(PluginDeployFolder)" />
+  </Target>
+
+</Project>
